@@ -23,14 +23,38 @@
 #include <cp15.h>
 
 /* thread phase init */
+#define LED_PL_DATA		0x41210000
+#define LED_PL_DIR		0x41210004
+#define BTN_PL_DATA		0x41220000
+#define BTN_PL_DIR		0x41220004
+
+static uint32_t Xil_In32(uint32_t Addr)
+{
+	return *(volatile uint32_t *) Addr;
+}
+
+static void Xil_Out32(uint32_t Addr, uint32_t Value)
+{
+	volatile uint32_t *LocalAddr = (volatile uint32_t *)Addr;
+	*LocalAddr = Value;
+}
+
 static void rt_init_thread_entry(void *parameter)
 {
     /* do component initialization */
+	uint32_t i=0;
     rt_components_init();
     rt_kprintf("running on cpu %d\n",
                rt_cpu_get_smp_id() & 0x0f);
+	Xil_Out32(LED_PL_DIR,0x0);
+	Xil_Out32(BTN_PL_DIR,0xF);
 
     /* add your initialization here */
+	for(;;){
+		//rt_kprintf("init_thread count %d\n",i++);
+		Xil_Out32(LED_PL_DATA,Xil_In32(BTN_PL_DATA));
+		rt_thread_delay(10);
+	}
 }
 
 int rt_application_init()

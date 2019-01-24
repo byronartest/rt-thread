@@ -1,0 +1,3 @@
+---- UART_BAUDGEN_115200 Matches (2 in 2 files) ----
+Uart.c (drivers):        uart->BAUDGEN = UART_BAUDGEN_115200;
+Uart_hw.h (drivers):#define UART_BAUDGEN_115200       62 /*Baud Rate Clock Divisor*/
