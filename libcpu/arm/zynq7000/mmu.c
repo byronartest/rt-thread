@@ -147,7 +147,7 @@ void rt_hw_mmu_init(void)
     /* no access to the memory below .text */
     /* 128M cached DDR memory */
     rt_hw_mmu_setmtt((rt_uint32_t)&__text_start, 0x20000000-1,
-                     0x1ff00000, RW_CB);
+                     0x1000000, RW_CB);
     /* PL region */
     rt_hw_mmu_setmtt(0x40000000, 0xBFFFFFFF, 0x40000000, RW_NCNBXN);
     /* IOP registers */

@@ -48,12 +48,14 @@ static void rt_init_thread_entry(void *parameter)
                rt_cpu_get_smp_id() & 0x0f);
 	Xil_Out32(LED_PL_DIR,0x0);
 	Xil_Out32(BTN_PL_DIR,0xF);
+		i = Xil_In32(BTN_PL_DATA);
 
     /* add your initialization here */
 	for(;;){
 		//rt_kprintf("init_thread count %d\n",i++);
-		Xil_Out32(LED_PL_DATA,Xil_In32(BTN_PL_DATA));
-		rt_thread_delay(10);
+		Xil_Out32(LED_PL_DATA,i&0xf);
+		i++;
+		rt_thread_delay(250);
 	}
 }
 
